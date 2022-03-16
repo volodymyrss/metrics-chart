@@ -18,7 +18,7 @@ class CustomCollector(object):
             d = requests.get("https://crux-" + c + ".obsuks1.unige.ch/tasks/summary").json()['tasks']
 
             for k, v in d.items():
-                m.add_sample(n, value=v, labels={'oda-dda-class': c, 'state': k})
+                m.add_sample(n, value=v, labels={'oda_dda_class': c, 'state': k})
 
         yield m
 
