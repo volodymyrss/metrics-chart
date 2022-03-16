@@ -1,7 +1,7 @@
 FROM python:3.6
 
 ADD code /code
-RUN pip install prometheus_client
+RUN pip install prometheus_client requests
 
 WORKDIR /code
 ENV PYTHONPATH '/code/'
