@@ -12,7 +12,7 @@ class CustomCollector(object):
         N = requests.get("https://crux-private.obsuks1.unige.ch/tasks/summary").json()['tasks']['waiting']
 
         g = GaugeMetricFamily("QueueSize", 'Help text', labels=['app'])
-        g.add_metric(["dqueue.waiting"], N)
+        g.add_metric(["oda_dqueue_private_waiting"], N)
         yield g
 
 #        c = CounterMetricFamily("HttpRequests", 'Help text', labels=['app'])
