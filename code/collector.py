@@ -1,6 +1,7 @@
 import time
 import requests
-from prometheus_client.core import GaugeMetricFamily, REGISTRY, CounterMetricFamily
+from prometheus_client.core import REGISTRY, Metric
+#from prometheus_client.core import GaugeMetricFamily, REGISTRY, CounterMetricFamily
 from prometheus_client import start_http_server
 
 
@@ -9,11 +10,17 @@ class CustomCollector(object):
         pass
 
     def collect(self):
-        N = requests.get("https://crux-private.obsuks1.unige.ch/tasks/summary").json()['tasks']['waiting']
+        n = "oda_dqueue"
+        m = Metric(n, 'Help text', 'gauge')
 
-        g = GaugeMetricFamily("QueueSize", 'Help text', labels=['app'])
-        g.add_metric(["oda_dqueue_private_waiting"], N)
-        yield g
+        #g = GaugeMetricFamily()
+        for c in ["public", "private"]:
+            d = requests.get("https://crux-" + c + ".obsuks1.unige.ch/tasks/summary").json()['tasks']
+
+            for k, v in d.items():
+                m.add_sample(n, value=v, labels={'oda-dda-class': c, 'state': k})
+
+        yield m
 
 #        c = CounterMetricFamily("HttpRequests", 'Help text', labels=['app'])
 #        c.add_metric(["example"], 2000)

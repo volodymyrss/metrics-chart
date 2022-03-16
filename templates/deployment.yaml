@@ -15,7 +15,9 @@ spec:
     metadata:
       {{- with .Values.podAnnotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8000'
+        #        {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
         {{- include "oda-metrics.selectorLabels" . | nindent 8 }}
